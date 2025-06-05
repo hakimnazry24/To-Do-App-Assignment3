@@ -17,10 +17,19 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
+    public function deleteAccount($userId)
+    {
+        User::destroy($userId);
+    }
+
     protected $fillable = [
         'name',
         'email',
         'password',
+        "nickname",
+        "avatar",
+        "phone_no",
+        "city"
     ];
 
     /**

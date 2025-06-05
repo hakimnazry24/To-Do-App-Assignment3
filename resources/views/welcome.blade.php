@@ -75,15 +75,15 @@
 
             <div class="links">
                 @if (Route::has('login'))
-                @auth
-                <a href="{{ url('/todo') }}">Home</a>
-                @else
-                <a href="{{ route('login') }}">Login</a>
+                    @auth
+                        <a href="{{ url('/todo') }}">Home</a>
+                    @else
+                        <a href="{{ route('login') }}">Login</a>
 
-                @if (Route::has('register'))
-                <a href="{{ route('register') }}">Register</a>
-                @endif
-                @endauth
+                        @if (Route::has('register'))
+                            <a href="{{ route('register') }}">Register</a>
+                        @endif
+                    @endauth
                 @endif
             </div>
         </div>
