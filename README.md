@@ -1,40 +1,54 @@
-# Assignment 1 - Input Validation and Profile Page
+# Laravel Authentication Enhancement - Assignment Summary
 
-## Overview
+This project enhances Laravel's default authentication system with several security and usability features including Multi-Factor Authentication (MFA), strong password hashing, rate limiting, and password salting.
 
-This assignment focuses on implementing secure input validation for user authentication and enhancing the user profile structure.
+---
 
-## What I Did
+## 🔐 Features Implemented
 
-- Created three custom controllers:
-  - `CustomLoginController`
-  - `CustomRegisterController`
-  - `CustomLogoutController`
+### ✅ 1. Multi-Factor Authentication (MFA) via Email
+- Implemented using **Laravel Fortify**.
+- After login, users are required to enter a 6-digit verification code sent to their email.
+- 2FA code is stored temporarily in the database (`two_factor_code`, `two_factor_expires_at`).
+- A Mailable (`TwoFactorCodeMail`) was created to handle the email notification.
 
-- Implemented two **Form Request** classes:
-  - `LoginRequest` – validates login inputs
-  - `RegisterRequest` – validates registration inputs
+### ✅ 2. Strong Password Hashing
+- Laravel’s default `Hash::make()` is used.
+- Hashing driver is configurable via `.env`:
+  - **Bcrypt** (default)
 
-## Validation Features
+### ✅ 3. Rate Limiting (Max 3 Failed Login Attempts)
+- Implemented using Laravel's **RateLimiter** facade.
+- Limits login attempts to 3 per minute per `email + IP`.
+- Blocked requests return a `429 Too Many Attempts` response with a custom error message.
 
-- Both form request classes enforce validation for:
-  - `email` – must be a valid email format
-  - `password` – must satisfy the following regex rule:
-    - Minimum 8 characters
-    - At least 1 uppercase letter
-    - At least 1 lowercase letter
-    - At least 1 special character
+### ✅ 4. Password Salting
+- Random 16-character salt is generated and stored in a new `salt` column in the `users` table.
+- During registration:
+  - Password is concatenated with the salt and then hashed.
+- During login:
+  - Password + user's salt is checked against the hashed password.
 
-## User Model Enhancements
+---
 
-- Extended the `User` model to include the following new fields:
-  - `nickname`
-  - `avatar`
-  - `phone_no`
-  - `city`
+## 🛠️ Technical Implementation
 
-- Updated the corresponding migration file to include these fields.
+### Database Changes
+Added the following columns to the `users` table:
+- `salt` – stores random string used for salting password.
+- `two_factor_code` – stores generated 2FA code.
+- `two_factor_expires_at` – expiration timestamp for 2FA code.
 
-## Summary
+### Mail
+- Created `App\Mail\TwoFactorCodeMail`.
+- Email view: `resources/views/emails/two_factor_code.blade.php`.
+- Uses Laravel's Mail system to send 2FA code to the user’s email.
 
-The system now ensures robust input validation during login and registration, while supporting enhanced user profile information through database and model updates.
+### Fortify Customization
+- Customized authentication logic in `FortifyServiceProvider`:
+  - Salting logic integrated into login verification.
+  - Rate limiter registered for login attempts.
+  - 2FA verification enforced manually.
+
+---
+
