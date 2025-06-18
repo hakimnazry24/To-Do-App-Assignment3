@@ -18,7 +18,10 @@ class CustomLoginController extends Controller
 
         $user = User::where("email", "=", $data["email"])->first();
 
-        if ($user && Hash::check($data["password"], $user->password)) {
+
+        $saltedInput = $data["password"] . $user->salt;
+
+        if ($user && Hash::check($saltedInput, $user->password)) {
             Auth::login($user);
             return redirect()->route("todo.index");
         } else {
