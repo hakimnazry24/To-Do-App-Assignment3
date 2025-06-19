@@ -1,7 +1,5 @@
 # To-Do App Project Overview
 
-Hey everyone! This document is a quick rundown of my To-Do app, what it currently does, and the cool new features I'm planning to implement to make it even better and more secure.
-
 ## Current State of the To-Do App
 
 So far, I've built a pretty standard To-Do List application. It lets users:
@@ -11,12 +9,7 @@ So far, I've built a pretty standard To-Do List application. It lets users:
 * **Update** tasks: Mark tasks as complete or edit their descriptions.
 * **Delete** tasks: Remove tasks they've finished or no longer need.
 
-It's a straightforward CRUD (Create, Retrieve, Update, Delete) application, focusing on basic task management.
-
-## Upcoming Enhancements: Making it Secure and Smart!
-
-Now, I'm diving deeper to add some more robust features, especially around security and user management. This involves implementing:
-
+## Enhancements: Making it Secure and Smart!
 ### 1. User Authentication (Login Page)
 
 The first big step is to add a proper login system. Right now, anyone can use it. But soon:
