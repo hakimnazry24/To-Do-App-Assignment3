@@ -58,11 +58,25 @@ class User extends Authenticatable
         ];
     }
 
-    public function generateTwoFactorCode() {
+    public function generateTwoFactorCode()
+    {
         $this->two_factor_code = rand(100000, 999999);
         $this->two_factor_expires_at = now()->addMinutes(10);
         $this->save();
+    }
 
-        Mail::to($this->email)->send
+    public function todos()
+    {
+        return $this->hasMany(Todo::class);
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany(UserRoles::class);
+    }
+
+    public function hasRole($role)
+    {
+        return $this->roles()->where('roleName', $role)->exists();
     }
 }
